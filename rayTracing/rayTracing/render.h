@@ -8,7 +8,7 @@ class renderer
 {
 public:
     int spp = 10;
-    int maxdepth = 10;
+    int maxdepth = 50;
     void render(const scene& scene);
 
 private:
@@ -27,22 +27,24 @@ private:
         FILE* fp = fopen("binary.ppm", "wb");
         (void)fprintf(fp, "P6\n%d %d\n255\n", scene.width, scene.height);
         for (auto i = 0; i < scene.height * scene.width; ++i) {
-            static unsigned char color[3];
+            static float color[3];
+
             color[0] = framebuffer[i].x();
             color[1] = framebuffer[i].y();
             color[2] = framebuffer[i].z();
 
             
             color[0] = linear_to_gamma(color[0]);
-            color[0] = linear_to_gamma(color[1]);
-            color[0] = linear_to_gamma(color[2]);
+            color[1] = linear_to_gamma(color[1]);
+            color[2] = linear_to_gamma(color[2]);
 
+            static char rgb[3];
 
-            color[0] = (char)(255 * clamp(0, 1, framebuffer[i].x()));
-            color[1] = (char)(255 * clamp(0, 1, framebuffer[i].y()));
-            color[2] = (char)(255 * clamp(0, 1, framebuffer[i].z()));
+            rgb[0] = (char)(255 * clamp(0, 1, color[0]));
+            rgb[1] = (char)(255 * clamp(0, 1, color[1]));
+            rgb[2] = (char)(255 * clamp(0, 1, color[2]));
 
-            fwrite(color, 1, 3, fp);
+            fwrite(rgb, 1, 3, fp);
         }
         fclose(fp);
     }

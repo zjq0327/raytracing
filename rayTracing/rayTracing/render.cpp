@@ -1,5 +1,5 @@
 #include"render.h"
-
+#include "material.h"
 
 
 bool trace(const ray& r, interval ray_t,hit_record& record,const std::vector<std::shared_ptr<object>>& objects)
@@ -45,9 +45,12 @@ vec3 renderer::castRay(const ray& rayIn, int depth,const scene& world)
 	// 打到光源停止还没写 TODO
 	if (isTrace == true)
 	{
-		vec3 direction = record.normal + random_unit_vector();
-		return 0.1 * castRay(ray(record.p, direction), depth + 1, world);
+		ray scattered;
+		color attenuation;
+		if (record.mat->scatter(rayIn, record, attenuation, scattered))
+			return attenuation * castRay(scattered, depth + 1, world);
 
+		return color(0,0,0);
 	}
 
 	vec3 unit_direction = unit_vector(rayIn.direction());

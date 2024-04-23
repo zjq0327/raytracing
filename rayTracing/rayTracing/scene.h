@@ -13,7 +13,6 @@ public:
 	int height = 960;
 	camera camera;
 
-	int maxDepth = 10;
 
 	scene()
 	{}
