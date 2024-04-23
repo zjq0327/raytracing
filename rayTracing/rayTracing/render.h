@@ -7,7 +7,7 @@
 class renderer
 {
 public:
-    int spp = 1;
+    int spp = 10;
 
     void render(const scene& scene);
 

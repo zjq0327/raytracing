@@ -21,7 +21,6 @@ bool trace(const ray& r, hit_record& record, const std::vector<std::shared_ptr<o
 				minTnear = tnear;
 				record = tmpRecord;
 				count++;
-
 			}
 
 		}
