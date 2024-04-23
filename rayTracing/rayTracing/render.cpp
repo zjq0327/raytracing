@@ -2,26 +2,22 @@
 
 
 
-bool trace(const ray& r, hit_record& record, const std::vector<std::shared_ptr<object>>& objects)
+bool trace(const ray& r, interval ray_t,hit_record& record,const std::vector<std::shared_ptr<object>>& objects)
 {
 
-	float minTnear = infinity;
 	bool isTrace = false;
 
-	int count = 0;
+	auto closest_so_far = ray_t.max;
+
 	for (int i = 0; i < objects.size(); i++)
 	{
 		float tnear;
 		hit_record tmpRecord;
-		if (objects[i]->hit(r, tnear, tmpRecord) == true)
+		if (objects[i]->hit(r, interval(ray_t.min, closest_so_far), tmpRecord) == true)
 		{
 			isTrace = true;
-			if (tnear < minTnear)
-			{
-				minTnear = tnear;
-				record = tmpRecord;
-				count++;
-			}
+			closest_so_far = tmpRecord.t;
+			record = tmpRecord;
 
 		}
 	}
@@ -33,17 +29,24 @@ bool trace(const ray& r, hit_record& record, const std::vector<std::shared_ptr<o
 
 
 // 开始支持光线弹射了
-vec3 castRay(const ray& rayIn, const scene& world)
+vec3 renderer::castRay(const ray& rayIn, int depth,const scene& world)
 {
+	if (depth > maxdepth)
+	{
+		return color(0, 0, 0);
+	}
+	
+
 	const std::vector<std::shared_ptr<object>>& objects = world.get_objects();
 	hit_record record;
-	bool isTrace = trace(rayIn, record, objects);
+	bool isTrace = trace(rayIn, interval(0.001, infinity),record, objects);
 
 	// 光线打到物体
 	// 打到光源停止还没写 TODO
 	if (isTrace == true)
 	{
-		return 0.5 * (record.normal + vec3(1, 1, 1));
+		vec3 direction = record.normal + random_unit_vector();
+		return 0.1 * castRay(ray(record.p, direction), depth + 1, world);
 
 	}
 
@@ -99,7 +102,7 @@ void renderer::render(const scene& scene)
 
 				ray r(center, direction);
 
-				framebuffer[curbuf] += castRay(r, scene);
+				framebuffer[curbuf] += castRay(r, 0,scene);
 			}
 			framebuffer[curbuf] = framebuffer[curbuf] / spp;
 			curbuf++;

@@ -61,11 +61,13 @@ public:
     static vec3 random(float min, float max) {
         return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
     }
+
+
 };
 
 // point3 is just an alias for vec3, but useful for geometric clarity in the code.
 using point3 = vec3;
-
+using color = vec3;
 
 // Vector Utility Functions
 
@@ -156,4 +158,3 @@ inline vec3 refract(const vec3& uv, const vec3& n, float etai_over_etat) {
     vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
-
