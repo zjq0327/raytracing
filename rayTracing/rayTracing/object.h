@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aabb.h"
 #include"global.h"
 
 class material;
@@ -27,7 +28,11 @@ class object
 public:
 	virtual bool hit(const ray& r, interval ray_t, hit_record& rec)const = 0;
 
+	virtual aabb bounding_box() const = 0;
+
 	virtual virtual ~object() = default;
+
+
 
 };
 

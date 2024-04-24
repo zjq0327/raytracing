@@ -103,7 +103,9 @@ void renderer::render(const scene& scene)
 					+ pixel_delta_v * (j - 0.5 + random_float());
 				vec3 direction = normalize(pixelCenter - center);
 
-				ray r(center, direction);
+				double ray_time = random_double();
+
+				ray r(center, direction, ray_time);
 
 				framebuffer[curbuf] += castRay(r, 0,scene);
 			}

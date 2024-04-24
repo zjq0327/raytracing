@@ -17,6 +17,13 @@ public:
         return min < x&& x < max;
     }
 
+    interval(interval i1, interval i2)
+    {
+        min = fmin(i1.min, i2.min);
+        max = fmax(i1.max, i2.max);
+    }
+
+
     static const interval empty, universe;
 };
 
