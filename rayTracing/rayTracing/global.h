@@ -78,6 +78,7 @@ inline bool solveQuadratic(const float& a, const float& b, const float& c, float
 
 // Common Headers
 
+
 #include "interval.h"
 #include "ray.h"
 #include "vec3.h"

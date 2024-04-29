@@ -10,7 +10,7 @@ class scene
 {
 public:
 	int width = 400;
-	int height = 100;
+	int height = 300;
 	camera camera;
 
 

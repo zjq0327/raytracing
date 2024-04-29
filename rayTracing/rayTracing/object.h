@@ -1,7 +1,9 @@
 #pragma once
+#include "global.h"
+
+
 
 #include "aabb.h"
-#include"global.h"
 
 class material;
 
@@ -11,6 +13,8 @@ public:
 	point3 p;
 	vec3 normal;
 	float t;
+	double u;
+	double v;
 	shared_ptr<material> mat;
 	bool front_face;
 

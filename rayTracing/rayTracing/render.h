@@ -1,13 +1,13 @@
 #pragma once
 
-#include"global.h"
+#include "global.h"
 
-#include"scene.h"
+#include "scene.h"
 
 class renderer
 {
 public:
-    int spp = 10;
+    int spp = 100;
     int maxdepth = 50;
     void render(const scene& scene);
 
@@ -49,5 +49,6 @@ private:
         fclose(fp);
     }
 
+    bool trace(const ray& r, interval ray_t, hit_record& record, const std::vector<std::shared_ptr<object>>& objects);
 
 };

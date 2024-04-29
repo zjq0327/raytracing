@@ -1,8 +1,8 @@
-#include"render.h"
+#include "render.h"
 #include "material.h"
 
 
-bool trace(const ray& r, interval ray_t,hit_record& record,const std::vector<std::shared_ptr<object>>& objects)
+bool renderer::trace(const ray& r, interval ray_t,hit_record& record,const std::vector<std::shared_ptr<object>>& objects)
 {
 
 	bool isTrace = false;
